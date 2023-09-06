@@ -209,12 +209,12 @@ lScan = getlscan(bScansCart, center); % L-Scan that goes through the center of t
 This processing chain requires some manually defined values to work properly. Some of those could be estimated automatically, but we did not implement that in the scope of this project.
 |     variable      |                      description                       | suitable value for "phantom1_1_3.mat" |  suitable value for "mscan_clinic.mat"  |
 | :---------------: | :----------------------------------------------------: | :-----------------------------------: | :-------------------------------------: |
-|     $FILEPATH     | filepath to the .mat file. Might be total or relative. |          "phantom1_1_3.mat"           |           "mscan_clinic.mat"            |
-|  $VARIABLE_NAME   |            the name of the m-scan variable             |              "mscancut"               |             "mscan_clinic"              |
-| $ARTIFACT_BOUNDS  |    [lowerBound, upperBound] of the static artifact.    |              [221, 227]               | not needed (might be defined as [1, 2]) |
-| $CATHETER_HEIGHT  |     max height of the catheter in the polar image      |                 ~102                  |                   ~70                   |
-|   $BSCAN_WIDTH    |          The width of each polar B-Scan image          |                ~14800                 |                  ~500                   |
-| $BINARY_THRESHOLD |     threshold for binary values in edge detection      |                 ~0.69                 |                  ~0.15                  |
+|     `$FILEPATH`     | filepath to the .mat file. Might be total or relative. |          "phantom1_1_3.mat"           |           "mscan_clinic.mat"            |
+|  `$VARIABLE_NAME`   |            the name of the m-scan variable             |              "mscancut"               |             "mscan_clinic"              |
+| `$ARTIFACT_BOUNDS`  |    [lowerBound, upperBound] of the static artifact.    |              [221, 227]               | not needed (might be defined as [1, 2]) |
+| `$CATHETER_HEIGHT`  |     max height of the catheter in the polar image      |                 ~102                  |                   ~70                   |
+|   `$BSCAN_WIDTH`    |          The width of each polar B-Scan image          |                ~14800                 |                  ~500                   |
+| `$BINARY_THRESHOLD` |     threshold for binary values in edge detection      |                 ~0.69                 |                  ~0.15                  |
 
 
 Those values were determined by __testing__. A better approach would be to automatically compute suitable values for `$ARTIFACT_BOUNDS`, `$CATHETER_HEIGHT`, `$BSCAN_WIDTH` and `$BINARY_THRESHOLD`, or getting those values from user input (for example clicking on certain points in the m-scan image).
