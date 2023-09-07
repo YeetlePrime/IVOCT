@@ -1,43 +1,50 @@
 function scanCart = polartocartesian(scanPolar)
 %Converts an image from polar coordinates to cartesian coordinates.
-%   Uses an adaptive mean-value approach.
+%   Computes image value for each cartesian image pixel by transforming to
+%   polar coordinates and using binary interpolation.
 %
-%   WRITTEN BY Alaa AND Lena
+%   Complexity of O(cartWidth * cartHeight) == O((2*polarHeight+1)^2)
+%
+%   WRITTEN BY Alaa AND Lena AND Jonas
 
     % get dimensions
     [polarHeight, polarWidth] = size(scanPolar);
     cartHeight = 2*polarHeight + 1;
     cartWidth = cartHeight;
 
-    % init cartesian image
-    scanCart = zeros(cartHeight, cartWidth);
-    % init numberOfChanges counter for the cartesian image. increases every
-    % time the pixel in that coordinate gets updated. Used to compute the
-    % mean value.
-    scanCounter = zeros(cartHeight, cartWidth);
+    % initialize empty output image with correct size
+    scanCart = zeros([cartWidth, cartHeight], 'double');
 
-    % iterate over polar image
-    for thetaI = 1:polarWidth
-        theta = thetaI*2*pi/polarWidth;
-        for rho = 1:polarHeight
-            % each polar image pixel:
-            %   compute cartesian coordinates
-            %   and change the cartesian pixel value
+    % loop over image pixels (with origin in image center)
+    for x = -polarHeight:polarHeight
+        for y = -polarHeight:polarHeight
+            % compute amplitude and angle in polar coordinates
+            [t, r] = cart2pol(x, y);
             
-            % cartesian coordinates
-            [x, y] = pol2cart(theta, rho);
-            x = floor(polarHeight + 1 + x);
-            y = floor(polarHeight + 1 - y);
+            % bilinear interpolation
+            if r < polarHeight && r > 0 % boundary check
+                % compute angle index from radian 
+                t = (polarWidth - 1) * (t + pi) / (2*pi) + 1;
+                
+                % t of closest pixels
+                ft = floor(t); % pixel left of t
+                st = ceil(t); % pixel right of t
+                % difference to ft
+                dt = t - ft;
 
-            % scale current value by the number of updates
-            scanCart(y, x) = scanCart(y, x)*scanCounter(y, x);
-            % add new value
-            scanCart(y, x) = scanCart(y, x) + scanPolar(rho, thetaI);
-            % increase counter for the specific pixel
-            scanCounter(y, x) = scanCounter(y, x) + 1;
-            % divide by new counter
-            scanCart(y, x) = scanCart(y, x)/scanCounter(y, x);
-            %RESULT: current mean value for the specific cartesian pixel
+                % r of closest pixels
+                fr = floor(r); % pixel over r
+                sr = ceil(r); % pixel under r
+                % difference to fr
+                dr = r - fr;
+                
+                % interpolation in t (or x) direction
+                v1 = (1 - dt) * scanPolar(fr, ft) + dt * scanPolar(fr, st);
+                v2 = (1 - dt) * scanPolar(sr, ft) + dt * scanPolar(sr, st);
+                
+                % interpolation in r (or y) direction
+                scanCart(y + polarHeight + 1, polarHeight + 1 - x) = (1 - dr) * v1 + dr * v2;
+            end
         end
     end
 end
