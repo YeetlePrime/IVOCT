@@ -219,4 +219,17 @@ This processing chain requires some manually defined values to work properly. So
 
 Those values were determined by __testing__. A better approach would be to automatically compute suitable values for `$ARTIFACT_BOUNDS`, `$CATHETER_HEIGHT`, `$BSCAN_WIDTH` and `$BINARY_THRESHOLD`, or getting those values from user input (for example clicking on certain points in the m-scan image).
 
+## Application  
+![Application](images/app_annotated.png)  
+To use the application, enter all values in the upper box (red in the image). Suitable values for the data of our group are given in the table of the [previous section](#requirements). Then push the "Load Scan" button. A file-explorer window will open. Search for your file and open it. The application will load the m-scan data. This might take a while (~30 seconds for "phantom1_1_3.mat" on my machine with Intel Core i7-9750H, 16GB DDR4 RAM).  
 
+All initial values are tweaked for "phantom1_1_3.mat" already. It should be changed for other data.
+
+The values in the green box and the index slider can be tweaked after loading scan data. Changing these sliders updates the output images live. Changing the binary-threshold slider might change the detected edge, so this can be adjusted until the detected edge is (more or less) accurate. Some example values with decent results are given in the table of the [previous section](#requirements) aswell.
+
+### Example for loaded scans
+#### phantom1_1_3.mat
+![phantom1_1_3.mat](images/app_phantom.png)
+
+#### mscan_clinic.mat
+![mscan_clinic.mat](images/app_clinic.png)
