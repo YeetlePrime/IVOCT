@@ -1,4 +1,4 @@
-# IVOCT - Thursday Group 1 (Alaa Alsayed, Torben Schenz, Jonas Tolkemittt, Lena Wieber)
+# IVOCT - Thursday Group 1
 This document is a short description for all created functions and the general processing chain for the IVOCT-project of Thursday-Group-1.
 
 The README file was written by Jonas.
